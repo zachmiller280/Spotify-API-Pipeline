@@ -1,4 +1,4 @@
-# AWS Account & CLI
+# AWS Account & AWS CLI Setup
 
 
 ## Setup

@@ -1,4 +1,4 @@
-# AWS Infrastucture
+# AWS Infrastucture with Terraform
 
 We'll use an infrastructure-as-code tool called `Terraform`. This will allow us to quickly setup (and destroy) our AWS resources using code. 
 
@@ -49,11 +49,32 @@ To learn a bit more about Terraform, check out [this tutorial](https://learn.has
 - Grants CloudWatch permission to trigger the Lambda function.
 
 
+## Manual Setup: AWS Secrets Manager & EC2 Key Pair
+Before deploying the Terraform configuration, you need to manually create two resources in the AWS Console:
 
-## **Security Considerations**
-- **SSH (22) and PostgreSQL (5432) should be restricted** to trusted IPs.
-- **Secrets Manager should have more restrictive IAM permissions** rather than allowing access to all secrets.
+### AWS Secrets Manager Secret
+What is this? AWS Secrets store sensitive credentials (e.g., database passwords, API keys) securely. Terraform will modify this secret and it will also be by our Lambda function to access our database and Spotify's API.
 
+How to create it:
+
+1. Navigate to **AWS Secrets Manager**.
+1. Click **Store a new secret** and choose **Other type of secret** as Secret type.
+1. Do not enter any values—leave the secret data blank.
+1. Choose a name (e.g., my-app-secrets) and save it.
+
+>Note the `Secret ARN`; you'll need it for Terraform.
+
+### EC2 Key Pair
+
+What is this? The key pair allows you to securely SSH into the EC2 instance if needed (for troubleshooting or manual configurations).
+
+How to create it:
+1. Navigate to **EC2>Network and Security>Key Pairs>Create New Key Pair**
+1. Choose a name (e.g., `my-ec2-keypair`) and note this down.
+1. Set Key pair type = `RSA` and Private key file format = `.pem`
+1. Click Create, and the private key (.pem file) will download automatically.
+
+>Note: Store this file securely—you won’t be able to download it again.
 
 ## Setup
 
@@ -67,11 +88,12 @@ To learn a bit more about Terraform, check out [this tutorial](https://learn.has
     cd ~\Spotify-API-Pipeline\terraform
     ```
 
-1. Open the `variables.tf` file
+1. Fill in the `default` parameters `variables.tf` file. 
 
-1. Fill in the `default` parameters.
-
-    * Specify a master DB user password for your database. Note that this may show up in logs and the terraform state file. For added security, your password should contain upper and lowercase letters, as well as numbers.
+    **Notes:** 
+    * For added security, your `DB_USER_PASSWORD` should contain upper and lowercase letters, as well as numbers.
+    * Make sure you choose the appropriate AMI as your `ec2_ami` may differ from mine (AMI's are different between regions).
+      - For reference, my AMI name is `ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server`
 
 
 1. May be a good idea to amend `.gitignore` to ignore all terraform files so you don't accidentally commit your password and other details. You'll need to remove the `!*.tf` line.
@@ -97,6 +119,6 @@ To learn a bit more about Terraform, check out [this tutorial](https://learn.has
     ```
 
 
-In the [AWS Console](https://aws.amazon.com/console/), you can now view your Redshift cluster, IAM Role, and S3 Bucket. You can also manually delete or customize them here and query any Redshift databases using the query editor. Just be sure to specify the correct region in the top right hand side of the AWS console when looking for your Redshift cluster.
+In the [AWS Console](https://aws.amazon.com/console/), you can view your newly created resources.
 
 

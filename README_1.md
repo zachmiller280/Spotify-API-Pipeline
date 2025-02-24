@@ -41,9 +41,9 @@ I am using AWS offer a free tier, however, you should be aware that depending on
   cd Spotify-API-Pipeline
   ```
 2. [Overview](instructions/overview.md)
-1. [Reddit API Configuration](instructions/reddit.md)
-1. [AWS Account](instructions/aws.md)
-1. [Infrastructure with Terraform](instructions/setup_infrastructure.md)
+1. [Spotify API Configuration](instructions/reddit.md)
+1. [AWS Account & AWS CLI Setup](instructions/aws.md)
+1. [AWS Infrastructure with Terraform](instructions/setup_infrastructure.md)
 1. [Configuration Details](instructions/config.md)
 1. [Docker & Airflow](instructions/docker_airflow.md) 
 1. [dbt](instructions/dbt.md)

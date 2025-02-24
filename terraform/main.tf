@@ -135,11 +135,15 @@ resource "aws_secretsmanager_secret_version" "db_credentials_version" {
     SPOTIFY_CLIENT_SECRET = var.SPOTIFY_CLIENT_SECRET,
     SPOTIFY_REFRESH_TOKEN = var.SPOTIFY_REFRESH_TOKEN,
 
-    HOST_IP    = aws_instance.db_server.public_ip,
     DB_NAME = var.DB_NAME,
     DB_USER_NAME     = var.DB_USER_NAME,
-    DB_USER_PASSWORD = var.DB_USER_PASSWORD
+    DB_USER_PASSWORD = var.DB_USER_PASSWORD,
+
+    HOST_IP    = aws_instance.db_server.public_ip
   })
+  lifecycle {
+    ignore_changes = [ secret_string ]
+  }
 
 }
 

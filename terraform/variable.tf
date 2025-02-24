@@ -35,7 +35,7 @@ variable "DB_USER_NAME" {
 }
 
 variable "DB_USER_PASSWORD" {
-  description = "Database user's password"
+  description = "Database user's password - Should contain upper and lowercase letters, as well as numbers."
   type        = string
   sensitive   = true
   default     = "your_super_secret_password"
