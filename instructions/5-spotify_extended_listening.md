@@ -21,3 +21,6 @@ At a high-level, there are a few things we need to do before this data is ready 
 1. Filter out nulls or tracks that were'nt actually played.
 1. Optional - Adjust records with duplicate timestamps so that all timestamps are unique.
 1. Insert records into listening history table.
+
+I have provided a Jupyter notebook which will help guide you through this process. 
+This notebook can be found [here](instructions\code_snippets\spotifyPostgresInsert.ipynb)
