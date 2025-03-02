@@ -14,7 +14,7 @@ Next, we need to retrieve your Spotify refresh token. Because Spotify API access
 
 By using our app's Redirect URI, Client ID, and Client Secret, we can retrieve our `Spotify Refresh Token`. There are a variety of methods to retrieve your refresh token, but I have gone ahead and included a Python script that should simplify this process.
 
-> You can find this script here: [instructions\code_snippets\get_spotify_refresh_token.py](instructions\code_snippets\get_spotify_refresh_token.py)
+> You can find this script here: [instructions\code_snippets\get_spotify_refresh_token.py](instructions/code_snippets/get_spotify_refresh_token.py)
 
 
 ## Understanding Our Data
