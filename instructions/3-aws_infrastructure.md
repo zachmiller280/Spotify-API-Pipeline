@@ -121,8 +121,6 @@ How to create it:
 
 In the [AWS Console](https://aws.amazon.com/console/), you can view your newly created resources.
 
-Also, by checking the logs of your newly created Lambda Function, we can see if the function is being executed successfully.  
-
 
 ### Table of Contents
 0. [Project Overview](https://github.com/zachmiller280/Spotify-API-Pipeline/tree/main)
