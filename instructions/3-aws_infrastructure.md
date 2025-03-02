@@ -123,3 +123,11 @@ In the [AWS Console](https://aws.amazon.com/console/), you can view your newly c
 
 Also, by checking the logs of your newly created Lambda Function, we can see if the function is being executed successfully.  
 
+
+### Table of Contents
+0. [Project Overview](https://github.com/zachmiller280/Spotify-API-Pipeline/tree/main)
+1. [Spotify API Configuration](1-spotify_api.md)
+1. [AWS Account & AWS CLI Setup](2-aws.md)
+1. [AWS Infrastructure with Terraform](3-aws_infrastructure.md)
+1. [Dashboarding](4-google_looker.md)
+1. [Insert Spotify Extended Listening History](5-spotify_extended_listening.md)
