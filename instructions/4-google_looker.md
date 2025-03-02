@@ -2,7 +2,7 @@
 
 We now want to visualise our data and validate that we are getting the expected results. Google Looker Studio is a great option for a personal project, as it is free and reports are easily published and shared.
 
-A sample export of my report can be found [here](main/images/listening_stats.pdf)
+A sample export of my report can be found [here](.\Spotify-API-Pipeline\images\listening_stats.pdf)
 
 
 ## Google Looker Studio
