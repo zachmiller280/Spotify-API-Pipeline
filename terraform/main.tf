@@ -64,9 +64,8 @@ resource "aws_instance" "db_server" {
               sudo -u postgres createuser ${var.DB_USER_NAME}
               sudo -u postgres createdb ${var.DB_NAME}
 
-              # Creating listening_history and track_features tables
+              # Creating listening_history table
               sudo -u postgres psql -d ${var.DB_NAME} -c "CREATE TABLE listening_history (id SERIAL PRIMARY KEY, track_uri VARCHAR(255), track_name VARCHAR(255), artist_name VARCHAR(255), album_name VARCHAR(255), played_at TIMESTAMP UNIQUE, ms_played INT, popularity INT);"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "CREATE TABLE track_features (id SERIAL PRIMARY KEY, track_uri VARCHAR(255) UNIQUE, danceability FLOAT, energy FLOAT, key INTEGER, loudness FLOAT, mode INTEGER, speechiness FLOAT, acousticness FLOAT, instrumentalness FLOAT, liveness FLOAT, valence FLOAT, tempo FLOAT, duration_ms INTEGER, time_signature INTEGER);"
 
               # Adding comments for listening_history table
               sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON TABLE listening_history IS 'Stores information about each track the user has listened to on Spotify, including playback details and track metadata. For more information, refer to: https://developer.spotify.com/documentation/web-api/reference/get-recently-played';"
@@ -79,32 +78,12 @@ resource "aws_instance" "db_server" {
               sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN listening_history.ms_played IS 'The total milliseconds the track was played, representing playback duration.';"
               sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN listening_history.popularity IS 'The popularity of the track. The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated by an algorithm based on the total number of plays the track has had and how recent those plays are.';"
 
-              # Adding comments for track_features table
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON TABLE track_features IS 'Stores audio feature data for each unique track, providing insights into the track’s characteristics as analyzed by Spotify. For more information, refer to: https://developer.spotify.com/documentation/web-api/reference/get-audio-features';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.id IS 'Unique identifier for each track feature record.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.track_uri IS 'The unique URI for the track, ensuring one set of features per track. Example: “spotify:track:6rqhFgbbKwnb9MLmUQDhG6.”';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.danceability IS 'A measure from 0.0 to 1.0 describing how suitable the track is for dancing, based on tempo, rhythm stability, and more.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.energy IS 'A measure from 0.0 to 1.0 representing the intensity and activity of the track.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.key IS 'The estimated musical key of the track, encoded as an integer (e.g., 0 = C, 1 = C♯/D♭). If no key was detected, the value is -1.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.loudness IS 'The overall loudness of the track in decibels (dB), averaged across the entire track.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.mode IS 'Indicates the modality of the track, where 1 is major and 0 is minor.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.speechiness IS 'A measure from 0.0 to 1.0 describing the presence of spoken words in the track.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.acousticness IS 'A confidence measure from 0.0 to 1.0 of whether the track is acoustic.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.instrumentalness IS 'Predicts whether a track contains no vocals, with values closer to 1.0 indicating higher confidence in instrumentalness.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.liveness IS 'Detects the presence of a live audience in the track; higher values suggest a greater likelihood of live performance.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.valence IS 'A measure from 0.0 to 1.0 describing the musical positiveness conveyed by the track. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.tempo IS 'The overall tempo of the track in beats per minute (BPM).';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.duration_ms IS 'The track''s duration in milliseconds.';"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "COMMENT ON COLUMN track_features.time_signature IS 'The estimated time signature of the track, indicating the number of beats per bar (e.g., 4 indicates a 4/4 time).';"
-
-
               # Adding password to database user
               sudo -u postgres psql -c "ALTER USER ${var.DB_USER_NAME} WITH ENCRYPTED PASSWORD '${var.DB_USER_PASSWORD}';"
               sudo -u postgres psql -d ${var.DB_NAME} -c "GRANT ALL PRIVILEGES ON DATABASE ${var.DB_NAME} TO ${var.DB_USER_NAME};"
 
               # Making the created user the owner of the two tables
               sudo -u postgres psql -d ${var.DB_NAME} -c "ALTER TABLE listening_history OWNER TO ${var.DB_USER_NAME};"
-              sudo -u postgres psql -d ${var.DB_NAME} -c "ALTER TABLE track_features OWNER TO ${var.DB_USER_NAME};"
 
               # Get the PostgreSQL version and store it in a variable
               PSQL_VERSION=$(psql --version | awk '{print $3}' | cut -d'.' -f1)

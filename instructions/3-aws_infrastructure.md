@@ -121,4 +121,5 @@ How to create it:
 
 In the [AWS Console](https://aws.amazon.com/console/), you can view your newly created resources.
 
+Also, by checking the logs of your newly created Lambda Function, we can see if the function is being executed successfully.  
 

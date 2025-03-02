@@ -1,7 +1,23 @@
 # Spotify Extended Listening History
 
-## How to request your data
+Congrats, you are now collecting your Spotify listening data in (near) real-time! However, ideally our database would also contain our complete listening history since the account was created. Thankfully, this is quite simple to accomplish, as Spotify has a feature which allows users to request their extended listening history. 
 
+## How to request your data
+1. Go to **https://www.spotify.com/us/account/privacy/**
+1. Request **Extended streaming history**
+1. Confirm your request
+
+Once your data request has been completed, you will receive several files in JSON format. 
+
+Now we will conduct some preprocessing to consolidate these JSON files, prepare the data, and then insert the historical data into our database.
 
 
 ## How to insert your data
+
+At a high-level, there are a few things we need to do before this data is ready to be inserted into our database.
+
+1. Combine all JSON files into a single table.
+1. Limit the columns to those we are interested in.
+1. Filter out nulls or tracks that were'nt actually played.
+1. Optional - Adjust records with duplicate timestamps so that all timestamps are unique.
+1. Insert records into listening history table.

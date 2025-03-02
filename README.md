@@ -1,145 +1,58 @@
-# Spotify API Pipeline
-
-### Purpose
-I wanted to capture all of my listening data for usage in dashboarding, analysis, and extracting insights. Spotify offers a way to request extended listening history, but this process is rather slow (taking 3-4 weeks to complete) and difficult to automate. This solution offers a real-time view into my listening habits.
-
-This project was also an opportunity to work with a variety of commonly used tools I haven’t had exposure to before. Because of this, this project is rather ‘over-engineered’.
+# Terraforming Tracks: Automating Spotify Listening History Collection and Storage with AWS Serverless
 
 
-### Prerequisites
+## Purpose
 
-* You have an AWS account (I am using the free trial).
-* You have installed and logged into AWS CLI (Refer to this [guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)).
-* SSO account is configured. Once AWS CLI is setup, run: `aws configure sso` to establish profile username.
-> **Note:**This username should be added to `variable.tf`
-* Spotify for developers account & a Spotify API application (Learn more [here](https://developer.spotify.com/documentation/web-api/tutorials/getting-started)).
-* Extended listening history (may take 30 days to receive from Spotify). You can use Spotify's [Account Privacy](https://www.spotify.com/us/account/privacy/) page to submit this request.
-* You have installed Terraform (You can download [here](https://developer.hashicorp.com/terraform/install?ajs_aid=52acce47-ebbd-459f-932d-f80efaff74a6&product_intent=terraform)).
+As a music and data nerd, I wanted a way to capture all of my listening data for dashboarding, exploritory analysis, and extracting insights. While Spotify does offer a method to request extended listening history, this process is rather slow (taking at least 3-4 weeks to complete) and difficult to automate. This solution offers a near real-time view into my listening habits.
+
+This project provided an opportunity to work with a variety of commonly used tools I haven’t had exposure to before. Because of this, this project is rather ‘over-engineered’.
 
 
-### Credentials:
-* Outline
-* Create EC2 instance
-* Create and configure PostgreSQL database hosted on EC2 instance
-* Create  Lambda function and schedule using AWS CloudEvents
-* Insert past listening history from Spotify.
-* Connect Database to Google Looker for reporting
+## Architecture
+
+<img src="https://github.com/zachmiller280/Spotify-API-Pipeline/blob/main/images/architecture_diagram.png" width=70% height=70%>
+
+1. Create AWS resources with [Terraform](https://www.terraform.io)
+1. Extract data using [Spotify's API](https://developer.spotify.com/documentation/web-api)
+1. Transform data using [AWS Lambda](https://aws.amazon.com/pm/lambda/)
+1. Load into PostgreSQL Database on [AWS EC2](https://aws.amazon.com/ec2/)
+1. Create [Google Looker](https://lookerstudio.google.com/) Dashboard
+1. Insert Extended Listening History data provided by [Spotify](https://www.spotify.com/us/account/privacy/)
 
 
+## Result
 
-### Components
-AWS:
-* A single EC2 instance containing:
-* One database
-Two tables (listening_history & track_features)
-One CloudEvents instance
-One Lambda function with a single layer which will:
-Get credentials (Spotify & EC2 Database) from AWS Secrets Manager.
-Get recently played tracks from Spotify
-Insert recently played tracks into listening history table
-Get track analysis of recently played tracks
-Insert track analysis into analysis table
-Spotify:
-A single application
-Google Looker
-Data:
+A dashboard in Google Looker Studio using the data collected:
 
-played_at: Returns time track was played at in UTC timezone.
+[<img src="https://github.com/zachmiller280/Spotify-API-Pipeline/blob/main/images/looker_dashboard.png" width=70% height=70%>](https://datastudio.google.com/reporting/e927fef6-b605-421c-ae29-89a66e11ea18)
+
+* A full print out of my report can be found [here](images\listening_stats.pdf)
 
 
+* To view my report within Looker Studio, please look  [here](https://lookerstudio.google.com/u/0/reporting/f873f57c-0a28-4a8c-961f-5567ca9e753f/page/p_ijh6tw1upd/preview)
+
+## Setup
+
+Follow the below steps to setup pipeline. I used Terraform to try to simplify as much of the setup as possible, so most the the work will be ensuring the correct software is installed and you have the appropriate permissions. 
 
 
+I am using AWS offer a free tier, however, you should be aware that depending on the amount of listening data you have you may exceed the free tier's EC2 limit. Also, AWS Secrets Manager is **not included** in this tier, and incurs a cost for each secret (at the time I built this, it was $0.40/secret/month). Please make sure to review [AWS free tier](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all) limits, as this may change over time.
+
+1. First clone the repository into your local directory.
+
+  ```bash
+  git clone https://github.com/zachmiller280/Spotify-API-Pipeline.git
+  cd Spotify-API-Pipeline
+  ```
+2. [Spotify API Configuration](instructions/1-spotify_api.md)
+1. [AWS Account & AWS CLI Setup](instructions/2-aws.md)
+1. [AWS Infrastructure with Terraform](instructions/3-aws_infrastructure.md)
+1. [Dashboarding](instructions/4-google_looker.md)
+1. [Insert Spotify Extended Listening History](instructions/5-spotify_extended_listening.md)
 
 
-listening_history Table
-Stores information about each track the user has listened to on Spotify, including playback details and track metadata. 
-For more information, refer to: https://developer.spotify.com/documentation/web-api/reference/get-recently-played 
+## Important Notes
 
-Column Name
-Data Type
-Description
-id
-SERIAL
-Unique identifier for each listening history record.
-track_uri
-VARCHAR(255)
-The unique URI for the track, used as an identifier within Spotify.
-Example: “spotify:track:6rqhFgbbKwnb9MLmUQDhG6”
-track_name
-VARCHAR(255)
-The name of the track.
-artist_name
-VARCHAR(255)
-The name of the track's main artist.
-album_name
-VARCHAR(255)
-The name of the album the track is part of.
-played_at
-TIMESTAMP
-The date and time when the track was played; each timestamp is unique to avoid duplicates.
-ms_played
-INT
-The total milliseconds the track was played, representing playback duration.
-popularity
-INT
-The popularity of the track. The value will be between 0 and 100, with 100 being the most popular.
-The popularity of a track is a value between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are.
-Generally speaking, songs that are being played a lot now will have a higher popularity than songs that were played a lot in the past. Duplicate tracks (e.g. the same track from a single and an album) are rated independently. Artist and album popularity is derived mathematically from track popularity. 
-Note: the popularity value may lag actual popularity by a few days: the value is not updated in real time.
+1. Spotify's `recently-played` endpoint does not capture tracks which have been skipped. The endpoint seems to only capture songs which are played until the end, so you can start a track, scrub to near the end of the track, and it should be captured.
 
-track_features Table
-Stores audio feature data for each unique track, providing insights into the track’s characteristics as analyzed by Spotify.
-For more information, refer to: https://developer.spotify.com/documentation/web-api/reference/get-audio-features 
-
-Column Name
-Data Type
-Description
-id
-SERIAL
-Unique identifier for each track feature record.
-track_uri
-VARCHAR(255)
-The unique URI for the track, ensuring one set of features per track.
-Example: “spotify:track:6rqhFgbbKwnb9MLmUQDhG6”
-danceability
-FLOAT
-A measure from 0.0 to 1.0 describing how suitable the track is for dancing, based on tempo, rhythm stability, and more.
-energy
-FLOAT
-A measure from 0.0 to 1.0 representing the intensity and activity of the track.
-key
-INTEGER
-The estimated musical key of the track, encoded as an integer (e.g., 0 = C, 1 = C♯/D♭). 
-If no key was detected, the value is -1.
-loudness
-FLOAT
-The overall loudness of the track in decibels (dB), averaged across the entire track.
-mode
-INTEGER
-Indicates the modality of the track, where 1 is major and 0 is minor.
-speechiness
-FLOAT
-A measure from 0.0 to 1.0 describing the presence of spoken words in the track.
-acousticness
-FLOAT
-A confidence measure from 0.0 to 1.0 of whether the track is acoustic.
-instrumentalness
-FLOAT
-Predicts whether a track contains no vocals, with values closer to 1.0 indicating higher confidence in instrumentalness.
-liveness
-FLOAT
-Detects the presence of a live audience in the track; higher values suggest a greater likelihood of live performance.
-valence
-FLOAT
-A measure from 0.0 to 1.0 describing the musical positiveness conveyed by the track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).
-tempo
-FLOAT
-The overall tempo of the track in beats per minute (BPM).
-duration_ms
-INTEGER
-The track's duration in milliseconds.
-time_signature
-INTEGER
-The estimated time signature of the track, indicating the number of beats per bar (e.g., 4 indicates a 4/4 time).
-
-
+1. Spotify's `recently-played` endpoint allows us to capture a track's popularity at the time it was played. However, our historical listening data will not include this attribute. **This will cause nulls in all historical records.** 
