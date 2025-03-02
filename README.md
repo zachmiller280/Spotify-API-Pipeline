@@ -35,6 +35,7 @@ A dashboard in Google Looker Studio using the data collected:
 
 Follow the below steps to setup pipeline. I used Terraform to try to simplify as much of the setup as possible, so most the the work will be ensuring the correct software is installed and you have the appropriate permissions. 
 
+**Note:** I created this using a machine running Windows 11. If you are encountering errors on Linux or macOs, you may need to alter some of the components.
 
 I am using AWS offer a free tier, however, you should be aware that depending on the amount of listening data you have you may exceed the free tier's EC2 limit. Also, AWS Secrets Manager is **not included** in this tier, and incurs a cost for each secret (at the time I built this, it was $0.40/secret/month). Please make sure to review [AWS free tier](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all) limits, as this may change over time.
 
