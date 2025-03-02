@@ -15,7 +15,7 @@ First, we will need to add our database as a data source within Looker Studio.
 1. Enter the required credentials and click `Authenticate`
 1. Select your table
 
-You can now feel free to create some visualisations. Some tutorials/guides can be found [here](https://cloud.google.com/looker/docs/studio?hl=en&visit_id=638759559392901347-1940849564&rd=1).
+You can now feel free to create visualisations. To help you get started, here are some tutorials/guides can be found [here](https://cloud.google.com/looker/docs/studio?hl=en&visit_id=638759559392901347-1940849564&rd=1).
 
 
 
