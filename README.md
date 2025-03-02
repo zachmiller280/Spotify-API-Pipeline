@@ -12,6 +12,7 @@ This project provided an opportunity to work with a variety of commonly used too
 <img src="https://github.com/zachmiller280/Spotify-API-Pipeline/blob/main/images/architecture_diagram.png" width=70% height=70%>
 
 1. Create AWS resources with [Terraform](https://www.terraform.io)
+     - **Note** You will need to manually create an AWS Secrets Mangaer Secret and a EC2 Key Pair
 1. Extract data using [Spotify's API](https://developer.spotify.com/documentation/web-api)
 1. Transform data using [AWS Lambda](https://aws.amazon.com/pm/lambda/)
 1. Load into PostgreSQL Database on [AWS EC2](https://aws.amazon.com/ec2/)
