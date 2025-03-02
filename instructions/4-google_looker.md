@@ -2,7 +2,7 @@
 
 We now want to visualise our data and validate that we are getting the expected results. Google Looker Studio is a great option for a personal project, as it is free and reports are easily published and shared.
 
-A sample export of my report can be found [here](images/listening_stats.pdf)
+A sample export of my report can be found [here](main/images/listening_stats.pdf)
 
 
 ## Google Looker Studio
@@ -25,4 +25,4 @@ You can now feel free to create some visualisations. Some tutorials/guides can b
 My report can be found [here](https://lookerstudio.google.com/u/0/reporting/f873f57c-0a28-4a8c-961f-5567ca9e753f/page/p_ijh6tw1upd/preview)
 
 
-To use template report with your data, follow this [guide](https://cloud.google.com/looker/docs/studio/create-a-report-from-a-template)
+To use my template report with your data, follow this [guide](https://cloud.google.com/looker/docs/studio/create-a-report-from-a-template)
