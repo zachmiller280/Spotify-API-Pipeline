@@ -1,9 +1,8 @@
 # Terraforming Tracks: Automating Spotify Listening History Collection and Storage with AWS Serverless
 
-
 ## Purpose
 
-As a music and data nerd, I wanted a way to capture all of my listening data for dashboarding, exploritory analysis, and extracting insights. While Spotify does offer a method to request extended listening history, this process is rather slow (taking at least 3-4 weeks to complete) and difficult to automate. This solution offers a near real-time view into my listening habits.
+As a music and data nerd, I wanted a way to capture all of my listening data and make it available for dashboarding, exploritory analysis, and extracting insights. While Spotify does offer a method to request extended listening history, this process is rather slow (taking at least 3-4 weeks to complete) and difficult to automate. This solution offers a near real-time view into my listening habits.
 
 This project provided an opportunity to work with a variety of commonly used tools I haven’t had exposure to before. Because of this, this project is rather ‘over-engineered’.
 
