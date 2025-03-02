@@ -38,13 +38,13 @@ Follow the below steps to setup pipeline. I used Terraform to try to simplify as
 
 I am using AWS offer a free tier, however, you should be aware that depending on the amount of listening data you have you may exceed the free tier's EC2 limit. Also, AWS Secrets Manager is **not included** in this tier, and incurs a cost for each secret (at the time I built this, it was $0.40/secret/month). Please make sure to review [AWS free tier](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all) limits, as this may change over time.
 
-1. First clone the repository into your local directory.
+Before we get started, clone this repository into your local directory.
 
   ```bash
   git clone https://github.com/zachmiller280/Spotify-API-Pipeline.git
   cd Spotify-API-Pipeline
   ```
-2. [Spotify API Configuration](instructions/1-spotify_api.md)
+1. [Spotify API Configuration](instructions/1-spotify_api.md)
 1. [AWS Account & AWS CLI Setup](instructions/2-aws.md)
 1. [AWS Infrastructure with Terraform](instructions/3-aws_infrastructure.md)
 1. [Dashboarding](instructions/4-google_looker.md)
