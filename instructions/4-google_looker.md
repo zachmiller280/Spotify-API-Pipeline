@@ -25,3 +25,11 @@ My report can be found [here](https://lookerstudio.google.com/u/0/reporting/f873
 
 
 To use my template report with your data, follow this [guide](https://cloud.google.com/looker/docs/studio/create-a-report-from-a-template)
+
+### Table of Contents
+0. [Project Overview](https://github.com/zachmiller280/Spotify-API-Pipeline/tree/main)
+1. [Spotify API Configuration](1-spotify_api.md)
+1. [AWS Account & AWS CLI Setup](2-aws.md)
+1. [AWS Infrastructure with Terraform](3-aws_infrastructure.md)
+1. [Dashboarding](4-google_looker.md)
+1. [Insert Spotify Extended Listening History](5-spotify_extended_listening.md)
