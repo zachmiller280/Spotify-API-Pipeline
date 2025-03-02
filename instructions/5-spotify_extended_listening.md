@@ -24,3 +24,13 @@ At a high-level, there are a few things we need to do before this data is ready 
 
 I have provided a Jupyter notebook which will help guide you through this process. 
 This notebook can be found [here](instructions\code_snippets\spotifyPostgresInsert.ipynb)
+
+
+
+### Table of Contents
+0. [Project Overview](https://github.com/zachmiller280/Spotify-API-Pipeline/tree/main)
+1. [Spotify API Configuration](1-spotify_api.md)
+1. [AWS Account & AWS CLI Setup](2-aws.md)
+1. [AWS Infrastructure with Terraform](3-aws_infrastructure.md)
+1. [Dashboarding](4-google_looker.md)
+1. [Insert Spotify Extended Listening History](5-spotify_extended_listening.md)
