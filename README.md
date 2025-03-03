@@ -24,7 +24,7 @@ This project provided an opportunity to work with a variety of commonly used too
 
 A dashboard in Google Looker Studio using the data collected:
 
-[<img src="https://github.com/zachmiller280/Spotify-API-Pipeline/blob/main/images/looker_dashboard.png" width=70% height=70%>](https://datastudio.google.com/reporting/e927fef6-b605-421c-ae29-89a66e11ea18)
+[<img src="https://github.com/zachmiller280/Spotify-API-Pipeline/blob/main/images/looker_dashboard.png" width=70% height=70%>](https://lookerstudio.google.com/u/0/reporting/f873f57c-0a28-4a8c-961f-5567ca9e753f/page/p_ijh6tw1upd/preview)
 
 * A full print out of my report can be found [here](images/listening_stats.pdf)
 
