@@ -25,7 +25,7 @@
 
     Once AWS CLI is configured, we will be able to interact with AWS services from the command line. This allows us to execute our Terraform code without exposing access keys.
 
-
+---
    ### Table of Contents
 0. [Project Overview](https://github.com/zachmiller280/Spotify-API-Pipeline/tree/main)
 1. [Spotify API Configuration](1-spotify_api.md)
