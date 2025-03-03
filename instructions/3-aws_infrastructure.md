@@ -85,7 +85,7 @@ How to create it:
 1. Change into `terraform` directory
 
     ```bash
-    cd ~\Spotify-API-Pipeline\terraform
+    cd terraform
     ```
 
 1. Fill in the `default` parameters `variables.tf` file. 
