@@ -105,7 +105,9 @@ def lambda_handler(event, context):
     )
     cur = conn.cursor()
 
-    tracks_count = 0
+    
+    # Extract tracks and sort by played_at (oldest to newest)
+    tracks = []
     for track in results["items"]:
         track_uri = track["track"]["uri"]
         track_name = track["track"]["name"]
@@ -114,16 +116,24 @@ def lambda_handler(event, context):
         played_at = track["played_at"]
         ms_played = track["track"]["duration_ms"]
         popularity = track["track"]["popularity"]
-        
+
+        tracks.append((track_uri, track_name, artist_name, album_name, played_at, ms_played, popularity))
+
+    # Sort tracks by played_at to ensure the most recent song is inserted last
+    tracks.sort(key=lambda x: x[4])  # x[4] is played_at
+
+    # Insert data into the database
+    tracks_count = 0
+    for track in tracks:
         cur.execute(
             """INSERT INTO listening_history (track_uri, track_name, artist_name, album_name, played_at, ms_played, popularity)
-            VALUES (%s, %s, %s, %s, %s, %s, %s) 
-            ON CONFLICT (played_at) DO NOTHING""",
-            (track_uri, track_name, artist_name, album_name, played_at, ms_played, popularity),
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (track_uri, played_at) DO NOTHING""",
+            track,
         )
         tracks_count += 1
-        logger.info("Added %s by %s to Postgres DB" %(track_name,artist_name))
+        logger.info("Added %s by %s to Postgres DB" % (track[1], track[2]))
 
     conn.commit()
     conn.close()
-    logger.info("Successfully added %d tracks to the Postgres DB" %(tracks_count))
+    logger.info("Successfully added %d tracks to the Postgres DB" % tracks_count)
